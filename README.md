@@ -23,15 +23,19 @@ when you need clean version.
 
 ## Build
 
-Requires cmake.
+Requires cmake. VS2022 for Windows, Homebrew for macOS, `sudo apt install python3.9-dev` for Ubuntu, etc.
 
 Retrieve all submodules by `git submodule update`.
 
 `python -m pip install -U pip`
 
-`pip install -U setuptools wheel pybind11-stubgen`
+`pip install -U setuptools setuptools-scm wheel pybind11-stubgen`
 
 Use `python setup.py bdist_wheel` and ignore deprecation warnings. `python -m build` is not supported.
+There is no way to copy `Little-CMS` and `pybind11` directories into venv isolated environment of `python -m build`.
+pyproject.toml lacks such feature.
+
+For macOS, `MACOSX_DEPLOYMENT_TARGET=11 python setup.py bdist_wheel` is preferable.
 
 ## Unit testing
 

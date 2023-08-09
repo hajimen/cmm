@@ -13,9 +13,9 @@ from distutils.version import LooseVersion
 
 
 class CMakeExtension(Extension):
-    def __init__(self, name: str, sourcedir: str = "") -> None:
-        super().__init__(name, sources=[])
-        self.sourcedir = os.fspath(Path(sourcedir).resolve())
+    def __init__(self, name: str) -> None:
+        super().__init__(name, [])
+        self.sourcedir = os.fspath(Path('.').resolve())
 
 
 class CMakeBuild(build_ext):
@@ -60,9 +60,6 @@ class CMakeBuild(build_ext):
 
         if not os.path.exists(self.build_temp):
             os.makedirs(self.build_temp)
-        print('\n\n\n\n\n\n')
-        subprocess.check_call(['dir', ext.sourcedir], shell=True)
-        print('\n\n\n\n\n\n')
         subprocess.check_call(['cmake', ext.sourcedir] + cmake_args, cwd=self.build_temp)
         subprocess.check_call(['cmake', '--build', '.'] + build_args, cwd=self.build_temp)
 
@@ -72,7 +69,7 @@ class CMakeBuild(build_ext):
         for f in glob(str(extdir) + '/*'):
             p = Path(f)
             if p.is_file():
-                shutil.copy(f, Path.cwd() / 'build')
+                shutil.copy(f, Path.cwd() / 'build')  # for debugging and unit testing
 
 
 setup(
@@ -81,7 +78,7 @@ setup(
     author_email='hajime@kaoriha.org',
     description='Color management module',
     long_description='Color management module based on lcms2. Not a full wrapper.',
-    ext_modules=[CMakeExtension('cmm', '.')],
+    ext_modules=[CMakeExtension('cmm')],
     cmdclass=dict(build_ext=CMakeBuild),
     license='LICENSE',
     classifiers=[
