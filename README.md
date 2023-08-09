@@ -25,7 +25,7 @@ when you need clean version.
 
 Requires cmake. VS2022 for Windows, Homebrew for macOS, `sudo apt install python3.9-dev` for Ubuntu, etc.
 
-Retrieve all submodules by `git submodule update`.
+Retrieve all submodules by `git submodule update --init`.
 
 ```
 python -m pip install -U pip
