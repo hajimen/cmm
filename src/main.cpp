@@ -68,30 +68,6 @@ PYBIND11_MODULE(cmm, m) {
 
         .. autosummary::
            :toctree: _generate
-
-           set_log_error_handler
-           open_profile_from_mem
-		   close_profile
-		   get_device_class
-		   get_color_space
-		   get_available_b2an_list
-		   create_srgb_profile
-		   get_profile_description
-		   create_transform
-		   create_proofing_transform
-		   set_alarm_codes
-		   get_transform_formatter
-		   delete_transform
-		   do_transform_8_8
-		   do_transform_8_16
-		   do_transform_16_8
-		   do_transform_16_16
-		   create_partial_profile
-		   add_lut16
-		   link_tag
-		   eval_lut16
-		   eval_pre_table
-		   dump_profile
     )pbdoc";
 
 	m.def("set_log_error_handler", [](py::function handler) {

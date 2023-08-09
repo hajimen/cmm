@@ -49,8 +49,9 @@ class CMakeBuild(build_ext):
 
         if platform.system() == "Windows":
             cmake_args += ['-DCMAKE_LIBRARY_OUTPUT_DIRECTORY_{}={}'.format(cfg.upper(), str(extdir))]
-            if sys.maxsize > 2**32:
-                cmake_args += ['-A', 'x64']
+            # # self.plat_name is always 'win32' regardless of --plat-name. Unmaintained?
+            # if self.plat_name == 'win32':
+            #     cmake_args += ['-A', 'Win32']
             build_args += ['--', '/m']
         else:
             cmake_args += ['-DCMAKE_BUILD_TYPE=' + cfg]
