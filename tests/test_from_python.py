@@ -20,8 +20,8 @@ ORACLE_DIR = CURRENT_DIR / 'tests/oracle'
 
 class TestSimple(unittest.TestCase):
     def test_version(self):
-        self.assertTrue(type(cmm.__version__) == str)
-        self.assertTrue(type(cmm.__lcms_version__) == int)
+        self.assertTrue(isinstance(cmm.__version__, str))
+        self.assertTrue(isinstance(cmm.__lcms_version__, int))
 
     def test_open_close(self):
         with open(TEST_PROFILE, 'rb') as f:

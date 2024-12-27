@@ -1,5 +1,4 @@
 import os
-import re
 import sys
 import platform
 import subprocess
@@ -9,7 +8,6 @@ from glob import glob
 
 from setuptools import setup, Extension
 from setuptools.command.build_ext import build_ext
-from distutils.version import LooseVersion
 
 
 class CMakeExtension(Extension):
@@ -21,15 +19,10 @@ class CMakeExtension(Extension):
 class CMakeBuild(build_ext):
     def run(self):
         try:
-            out = subprocess.check_output(['cmake', '--version'])
+            subprocess.check_output(['cmake', '--version'])
         except OSError:
             raise RuntimeError("CMake must be installed to build the following extensions: " +
                                ", ".join(e.name for e in self.extensions))
-
-        if platform.system() == "Windows":
-            cmake_version = LooseVersion(re.search(r'version\s*([\d.]+)', out.decode()).group(1))
-            if cmake_version < '3.1.0':
-                raise RuntimeError("CMake >= 3.1.0 is required on Windows")
 
         for ext in self.extensions:
             self.build_extension(ext)
@@ -49,9 +42,8 @@ class CMakeBuild(build_ext):
 
         if platform.system() == "Windows":
             cmake_args += ['-DCMAKE_LIBRARY_OUTPUT_DIRECTORY_{}={}'.format(cfg.upper(), str(extdir))]
-            # # self.plat_name is always 'win32' regardless of --plat-name. Unmaintained?
-            # if self.plat_name == 'win32':
-            #     cmake_args += ['-A', 'Win32']
+            if self.plat_name == 'win32':
+                cmake_args += ['-A', 'Win32']
             build_args += ['--', '/m']
         else:
             cmake_args += ['-DCMAKE_BUILD_TYPE=' + cfg]
@@ -66,7 +58,7 @@ class CMakeBuild(build_ext):
 
         env = os.environ.copy()
         env['PYTHONPATH'] = str(extdir)
-        subprocess.check_call(['pybind11-stubgen', '-o', '.', '--no-setup-py', ext.name], cwd=extdir, env=env)
+        subprocess.check_call(['pybind11-stubgen', '-o', '.', '--ignore-unresolved-names', 'capsule', ext.name], cwd=extdir, env=env)
         for f in glob(str(extdir) + '/*'):
             p = Path(f)
             if p.is_file():
