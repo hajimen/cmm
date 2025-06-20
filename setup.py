@@ -66,18 +66,17 @@ class CMakeBuild(build_ext):
 
 
 setup(
-    name='cmm',
+    name='cmm-16bit',
     author='Hajime NAKAZATO',
     author_email='hajime@kaoriha.org',
     description='Color management module',
     long_description='Color management module based on lcms2. Not a full wrapper.',
     ext_modules=[CMakeExtension('cmm')],
     cmdclass=dict(build_ext=CMakeBuild),
-    license='LICENSE',
+    license='MIT',
     classifiers=[
         'Development Status :: 3 - Alpha',
         "Intended Audience :: Developers",
-        'License :: OSI Approved :: MIT License',
         'Operating System :: MacOS :: MacOS X',
         'Operating System :: Microsoft :: Windows',
         'Operating System :: POSIX',

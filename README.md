@@ -16,6 +16,9 @@ If you are informed enough to use it, you don't need any instruction.
 `import faulthandler; faulthandler.enable()` is strongly recommended. There is no memory protection in this module.
 You can easily make a segmentation fault.
 
+To integrade to your product, `pip install cmm-16bit`. Be careful of `-16bit`. Just `cmm` is not mine.
+If you do not need 16-bit per chanel, consider [ImageCms module](https://pillow.readthedocs.io/en/stable/reference/ImageCms.html) of Pillow.
+
 ## Versioning
 
 It is the default versioning scheme of `setuptools-scm`. Commit and tag with a version number
@@ -23,7 +26,7 @@ when you need clean version.
 
 ## Build
 
-Requires cmake. VS2022 for Windows, Homebrew for macOS, `sudo apt install python3.9-dev` for Ubuntu, etc.
+Requires cmake. VS2022 for Windows, Homebrew for macOS, `sudo apt install python3.11-dev` for Ubuntu, etc.
 
 Retrieve all submodules by `git submodule update --init`.
 
@@ -34,7 +37,7 @@ python -m build --wheel
 
 For macOS, `MACOSX_DEPLOYMENT_TARGET=11 python -m build --wheel` is preferable.
 
-The generated whl file should be found in `dist` directory.
+The generated whl file should be found in `dist` directory. The wheel name is `cmm_16bit`.
 
 ## Unit testing
 
