@@ -1,5 +1,9 @@
 # Changelog
 
+## [0.1.5] - 2025-06-21
+
+- Bug fix: Dawrin wheel was not universal2.
+
 ## [0.1.4] - 2025-06-20
 
 - Now Little-CMS is 2.17

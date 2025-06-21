@@ -47,6 +47,7 @@ class CMakeBuild(build_ext):
             build_args += ['--', '/m']
         else:
             cmake_args += ['-DCMAKE_BUILD_TYPE=' + cfg]
+            cmake_args += ['-DCMAKE_OSX_ARCHITECTURES=arm64;x86_64']
             build_args += ['--', '-j2']
 
         cmake_args += [f"-DVERSION_INFO={self.distribution.get_version()}"]
@@ -70,7 +71,9 @@ setup(
     author='Hajime NAKAZATO',
     author_email='hajime@kaoriha.org',
     description='Color management module',
-    long_description='Color management module based on lcms2. Not a full wrapper.',
+    long_description=(Path(__file__).parent / 'README.md').read_text(),
+    long_description_content_type='text/markdown',
+    url='https://github.com/hajimen/cmm',
     ext_modules=[CMakeExtension('cmm')],
     cmdclass=dict(build_ext=CMakeBuild),
     license='MIT',
