@@ -1,5 +1,9 @@
 # Changelog
 
+## [0.1.6] - 2025-10-08
+
+- Now Python 3.14 wheel is ready.
+
 ## [0.1.5] - 2025-06-21
 
 - Bug fix: Dawrin wheel was not universal2.
