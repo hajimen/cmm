@@ -65,7 +65,11 @@ class CMakeBuild(build_ext):
 
         env = os.environ.copy()
         env['PYTHONPATH'] = str(extdir)
-        subprocess.check_call(['pybind11-stubgen', '-o', '.', '--ignore-unresolved-names', 'capsule', ext.name], cwd=extdir, env=env)
+        # Generate type stubs (optional - may fail in isolated build environments)
+        try:
+            subprocess.check_call(['pybind11-stubgen', '-o', '.', '--ignore-unresolved-names', 'capsule', ext.name], cwd=extdir, env=env)
+        except (subprocess.CalledProcessError, FileNotFoundError):
+            print("Warning: pybind11-stubgen failed, skipping .pyi generation")
         for f in glob(str(extdir) + '/*'):
             p = Path(f)
             if p.is_file():
