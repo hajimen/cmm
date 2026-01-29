@@ -18,6 +18,12 @@ class CMakeExtension(Extension):
 
 class CMakeBuild(build_ext):
     def run(self):
+        # Fetch git submodules if they're missing (needed for pip install from git)
+        pybind11_dir = Path(__file__).parent / 'pybind11'
+        if not (pybind11_dir / 'CMakeLists.txt').exists():
+            subprocess.check_call(['git', 'submodule', 'update', '--init', '--recursive'],
+                                  cwd=Path(__file__).parent)
+
         try:
             subprocess.check_output(['cmake', '--version'])
         except OSError:
@@ -59,7 +65,11 @@ class CMakeBuild(build_ext):
 
         env = os.environ.copy()
         env['PYTHONPATH'] = str(extdir)
-        subprocess.check_call(['pybind11-stubgen', '-o', '.', '--ignore-unresolved-names', 'capsule', ext.name], cwd=extdir, env=env)
+        # Generate type stubs (optional - may fail in isolated build environments)
+        try:
+            subprocess.check_call(['pybind11-stubgen', '-o', '.', '--ignore-unresolved-names', 'capsule', ext.name], cwd=extdir, env=env)
+        except (subprocess.CalledProcessError, FileNotFoundError):
+            print("Warning: pybind11-stubgen failed, skipping .pyi generation")
         for f in glob(str(extdir) + '/*'):
             p = Path(f)
             if p.is_file():

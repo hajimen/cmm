@@ -324,6 +324,64 @@ PYBIND11_MODULE(cmm, m) {
 		Creates sRGB profile.
 	)pbdoc");
 
+	m.def("create_lab4_profile", [](py::object wtpt) {
+		if (wtpt.is_none()) {
+			return cmsCreateLab4Profile(NULL);
+		}
+		py::array_t<double> wtpt_arr = wtpt.cast<py::array_t<double>>();
+		py::buffer_info wtpt_bi = wtpt_arr.request();
+		if (wtpt_bi.ndim != 1 || wtpt_bi.shape[0] != 3) {
+			return (cmsHPROFILE)NULL;
+		}
+		auto wtpt_ptr = static_cast<double *>(wtpt_bi.ptr);
+		cmsCIExyY whitePoint;
+		whitePoint.x = wtpt_ptr[0];
+		whitePoint.y = wtpt_ptr[1];
+		whitePoint.Y = wtpt_ptr[2];
+		return cmsCreateLab4Profile(&whitePoint);
+	}, "wtpt"_a = py::none(), R"pbdoc(
+		Creates a Lab profile based on ICC v4.
+
+		Parameters
+		----------
+		wtpt: Optional[ndarray[float64]]
+			xyY values of white point. Shape=(3,). If None, D50 is used.
+
+		Returns
+		-------
+		PyCapsule
+			Profile handle. None if error.
+	)pbdoc");
+
+	m.def("create_lab2_profile", [](py::object wtpt) {
+		if (wtpt.is_none()) {
+			return cmsCreateLab2Profile(NULL);
+		}
+		py::array_t<double> wtpt_arr = wtpt.cast<py::array_t<double>>();
+		py::buffer_info wtpt_bi = wtpt_arr.request();
+		if (wtpt_bi.ndim != 1 || wtpt_bi.shape[0] != 3) {
+			return (cmsHPROFILE)NULL;
+		}
+		auto wtpt_ptr = static_cast<double *>(wtpt_bi.ptr);
+		cmsCIExyY whitePoint;
+		whitePoint.x = wtpt_ptr[0];
+		whitePoint.y = wtpt_ptr[1];
+		whitePoint.Y = wtpt_ptr[2];
+		return cmsCreateLab2Profile(&whitePoint);
+	}, "wtpt"_a = py::none(), R"pbdoc(
+		Creates a Lab profile based on ICC v2.
+
+		Parameters
+		----------
+		wtpt: Optional[ndarray[float64]]
+			xyY values of white point. Shape=(3,). If None, D50 is used.
+
+		Returns
+		-------
+		PyCapsule
+			Profile handle. None if error.
+	)pbdoc");
+
 	m.def("get_profile_description", [](cmsHPROFILE hp) -> py::object {
 		int len = cmsGetProfileInfoASCII(hp, cmsInfoDescription, "eng", "USA", NULL, 0);
 		if (!len) {
