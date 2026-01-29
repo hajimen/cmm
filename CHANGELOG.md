@@ -1,5 +1,9 @@
 # Changelog
 
+## [0.1.7] - 2026-01-29
+
+- Add `create_lab4_profile()` and `create_lab2_profile()` wrappers (PR1)[https://github.com/hajimen/cmm/pull/1]
+
 ## [0.1.6] - 2025-10-08
 
 - Now Python 3.14 wheel is ready.
