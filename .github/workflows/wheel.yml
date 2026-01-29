@@ -12,7 +12,7 @@ jobs:
     strategy:
       matrix:
       # Do not forget to sync the matrix with below!
-        os: [ubuntu-22.04, ubuntu-22.04-arm, macos-13, windows-latest, windows-11-arm]
+        os: [ubuntu-22.04, ubuntu-22.04-arm, macos-latest, windows-latest, windows-11-arm]
         python-version: ["3.11", "3.12", "3.13", "3.14"]
 
     runs-on: ${{ matrix.os }}
@@ -59,7 +59,7 @@ jobs:
     strategy:
       max-parallel: 1
       matrix:
-        os: [ubuntu-22.04, ubuntu-22.04-arm, macos-13, windows-latest, windows-11-arm]
+        os: [ubuntu-22.04, ubuntu-22.04-arm, macos-latest, windows-latest, windows-11-arm]
         python-version: ["3.11", "3.12", "3.13", "3.14"]
 
     steps:
