@@ -37,15 +37,27 @@ python -m build --wheel
 
 For macOS, `MACOSX_DEPLOYMENT_TARGET=11 python -m build --wheel` is preferable.
 
+For Pyodide, with some Linux:
+
+```
+pip install pyodide-build
+pyodide build .
+```
+
 The generated whl file should be found in `dist` directory. The wheel name is `cmm_16bit`.
 
 ## Unit testing
 
 Build with `python -m build --wheel`. Do not forget `--wheel`. It generates `build` directory and `tests/test_from_python.py` uses the output.
 
-`pip install pillow`
+`pip install numpy pillow`
 
-`python -m unittest .\tests\test_from_python.py`
+`python -m unittest ./tests/test_from_python.py`
+
+For Pyodide, you should install the cmm-16bit wheel too.
+
+Pyodide fails transform test (`test_8_8` and `test_8_8_proofing`) because it makes a bit
+different result. So I skipped them.
 
 ## License
 

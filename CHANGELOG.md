@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.1.8] - 2026-06-13
+
+- Now Pyodide/pyemscripten wheels (3.12 to 3.14) are ready.
+- Now it uses cibuildwheel (not for Pyodide).
+- Now Little-CMS is 2.19.1
+
 ## [0.1.7] - 2026-01-29
 
 - Add `create_lab4_profile()` and `create_lab2_profile()` wrappers (PR1)[https://github.com/hajimen/cmm/pull/1]

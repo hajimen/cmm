@@ -55,6 +55,9 @@ class CMakeBuild(build_ext):
             cmake_args += ['-DCMAKE_BUILD_TYPE=' + cfg]
             cmake_args += ['-DCMAKE_OSX_ARCHITECTURES=arm64;x86_64']
             build_args += ['--', '-j2']
+            if 'emscripten' in os.environ.get("_PYTHON_HOST_PLATFORM", ""):
+                cmake_args += ['-DCMAKE_CROSSCOMPILING=TRUE']
+                cmake_args += ['-DPYBIND11_USE_CROSSCOMPILING=TRUE']
 
         cmake_args += [f"-DVERSION_INFO={self.distribution.get_version()}"]
 
@@ -97,5 +100,6 @@ setup(
         'Programming Language :: C++',
         'Topic :: Software Development :: Libraries :: Python Modules',
     ],
-    keywords=['color management']
+    keywords=['color management'],
+    requires=['numpy']
 )

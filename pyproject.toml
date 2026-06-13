@@ -1,5 +1,22 @@
 [build-system]
-requires = ["setuptools", "setuptools-scm", "numpy", "pybind11-stubgen==2.5.1"]
+requires = ["setuptools", "setuptools-scm", "numpy==2.4.6", "pybind11-stubgen==2.5.5"]
 build-backend = "setuptools.build_meta"
 
 [tool.setuptools_scm]
+
+[tool.cibuildwheel]
+skip = ["cp38-*", "cp39-*", "cp310-*", "*musllinux*"]
+test-sources = ["tests"]
+test-requires = ["numpy==2.4.6", "pillow"]
+test-command = "python -m unittest ./tests/test_from_python.py"
+
+[tool.cibuildwheel.macos]
+environment = { MACOSX_DEPLOYMENT_TARGET="11" }
+archs = ["universal2"]
+
+[tool.cibuildwheel.windows]
+# "cp314t-*" is for bug workaround of cibuildwheel
+skip = ["cp38-*", "cp39-*", "cp310-*", "cp314t-*"]
+
+[tool.cibuildwheel.pyodide]
+test-requires = ["numpy", "pillow"]

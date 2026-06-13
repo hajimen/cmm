@@ -2,8 +2,11 @@
 #include <pybind11/stl.h>
 #include <pybind11/numpy.h>
 
+extern "C" {
+#define CMS_NO_REGISTER_KEYWORD 1
 #include <lcms2.h>
 #include <lcms2_internal.h>
+}
 
 namespace py = pybind11;
 using namespace pybind11::literals;
