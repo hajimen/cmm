@@ -46,6 +46,10 @@ class CMakeBuild(build_ext):
         for ext in self.extensions:
             self.build_extension(ext)
 
+        # For setuptools-scm versioning
+        subprocess.check_call(['git', 'checkout', '.'],
+                              cwd=Path(__file__).parent / 'Little-CMS')
+
     def build_extension(self, ext):
         ext_fullpath = Path.cwd() / self.get_ext_fullpath(ext.name)
         extdir = ext_fullpath.parent.resolve()
