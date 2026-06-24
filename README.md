@@ -56,8 +56,14 @@ Build with `python -m build --wheel`. Do not forget `--wheel`. It generates `bui
 
 For Pyodide, you should install the cmm-16bit wheel too.
 
-Pyodide fails transform test (`test_8_8` and `test_8_8_proofing`) because it makes a bit
+Pyodide fails transform test (`test_8_8`, `test_8_8_proofing` and `test_patch`) because it makes a bit
 different result. So I skipped them.
+
+## About revert patch for Little-CMS commit bb60a46
+
+My ICC profile (sublinova-epson4pigment-PBT-20231121_srgb.icc) is broken by
+[Little-CMS commit bb60a46](https://github.com/mm2/Little-CMS/commit/bb60a46e9c50e9d3d18cf6dd81869240e4ebe618).
+I think that the commit is wrong.
 
 ## License
 

@@ -24,6 +24,19 @@ class CMakeBuild(build_ext):
             subprocess.check_call(['git', 'submodule', 'update', '--init', '--recursive'],
                                   cwd=Path(__file__).parent)
 
+        # Revert patch for https://github.com/mm2/Little-CMS/commit/bb60a46e9c50e9d3d18cf6dd81869240e4ebe618
+        # The commit breaks my ICC profile "sublinova-epson4pigment-PBT-20231121_srgb.icc".
+        ret = subprocess.call(['git', 'apply', '--check', '../src/lcms2-patch.diff'],
+                              cwd=Path(__file__).parent / 'Little-CMS')
+        if ret == 0:
+            subprocess.check_call(['git', 'apply', '../src/lcms2-patch.diff'],
+                                  cwd=Path(__file__).parent / 'Little-CMS')
+        else:
+            ret = subprocess.call(['git', 'apply', '-R', '--check', '../src/lcms2-patch.diff'],
+                                  cwd=Path(__file__).parent / 'Little-CMS')
+            if ret != 0:
+                raise RuntimeError("Little-CMS patch is mismatching.")
+
         try:
             subprocess.check_output(['cmake', '--version'])
         except OSError:

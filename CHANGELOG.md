@@ -1,5 +1,9 @@
 # Changelog
 
+## [0.1.9] - 2026-06-24
+
+- Revert patch for Little-CMS https://github.com/mm2/Little-CMS/commit/bb60a46e9c50e9d3d18cf6dd81869240e4ebe618.
+
 ## [0.1.8] - 2026-06-13
 
 - Now Pyodide/pyemscripten wheels (3.12 to 3.14) are ready.

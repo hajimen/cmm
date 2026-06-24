@@ -1,0 +1,20 @@
+diff --git a/src/cmssamp.c b/src/cmssamp.c
+index 30b34c3..214f6ac 100644
+--- a/src/cmssamp.c
++++ b/src/cmssamp.c
+@@ -123,12 +123,9 @@ cmsBool  BlackPointAsDarkerColorant(cmsHPROFILE    hInput,
+     // Convert black to Lab
+     cmsDoTransform(xform, Black, &Lab, 1);
+ 
+-    if (Lab.L > 95)
+-        Lab.L = 0;  // for synthetical negative profiles
+-    else if (Lab.L < 0)
+-        Lab.L = 0;
+-    else if (Lab.L > 50)
+-        Lab.L = 50;
++    // Force it to be neutral, check for inconsistencies
++    Lab.a = Lab.b = 0;
++    if (Lab.L > 50 || Lab.L < 0) Lab.L = 0;
+ 
+     // Free the resources
+     cmsDeleteTransform(xform);

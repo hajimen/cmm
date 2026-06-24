@@ -166,3 +166,26 @@ class TestConversion(unittest.TestCase):
         cmm.do_transform_8_8(tr, self.src_img, self.trg_img, self.src_img.size // 3)
         self.assert_image('test_8_8_proofing.png')
         cmm.delete_transform(tr)
+
+    @unittest.skipIf(sys.platform == 'emscripten',
+                     "Emscripten float seems different from other CPUs.")
+    def test_patch(self):
+        with open(CURRENT_DIR / 'tests/resource/Linear P3D65.icc', 'rb') as f:
+            WS_HP = cmm.open_profile_from_mem(f.read())
+
+        with open(CURRENT_DIR / r'tests\resource\sublinova-epson4pigment-PBT-20231121_srgb.icc', 'rb') as f:
+            SUBLINOVA_HP = cmm.open_profile_from_mem(f.read())
+
+        fmt = cmm.get_transform_formatter(0, cmm.PT_RGB, 3, 2, 0, 0)
+
+        tr = cmm.create_transform(
+            WS_HP, fmt,
+            SUBLINOVA_HP, self.fmt,
+            cmm.INTENT_RELATIVE_COLORIMETRIC,
+            cmm.cmsFLAGS_BLACKPOINTCOMPENSATION)
+
+        ws_img = np.load(CURRENT_DIR / 'tests/resource/ws_img.npy')
+        self.trg_img = np.zeros_like(ws_img, dtype=np.uint8)
+        cmm.do_transform_16_8(tr, ws_img[:, :, ::-1].copy(), self.trg_img, ws_img.size // 3)
+        self.assert_image('test_patch.png')
+        cmm.delete_transform(tr)
