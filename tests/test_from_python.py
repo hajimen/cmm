@@ -173,7 +173,7 @@ class TestConversion(unittest.TestCase):
         with open(CURRENT_DIR / 'tests/resource/Linear P3D65.icc', 'rb') as f:
             WS_HP = cmm.open_profile_from_mem(f.read())
 
-        with open(CURRENT_DIR / r'tests\resource\sublinova-epson4pigment-PBT-20231121_srgb.icc', 'rb') as f:
+        with open(CURRENT_DIR / 'tests/resource/sublinova-epson4pigment-PBT-20231121_srgb.icc', 'rb') as f:
             SUBLINOVA_HP = cmm.open_profile_from_mem(f.read())
 
         fmt = cmm.get_transform_formatter(0, cmm.PT_RGB, 3, 2, 0, 0)
